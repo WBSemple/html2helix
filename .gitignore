@@ -1,0 +1,8 @@
+/node_modules/
+/public/js
+/.cpcache
+/.shadow-cljs
+/.idea
+.DS_Store
+/public/output.css
+/public/fonts
