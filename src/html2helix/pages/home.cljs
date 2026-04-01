@@ -1,6 +1,5 @@
 (ns html2helix.pages.home
-  (:require ["@heroicons/react/24/outline" :as hero]
-            ["@uiw/react-codemirror$default" :as CodeMirror]
+  (:require ["@uiw/react-codemirror$default" :as CodeMirror]
             ["@codemirror/language" :refer [StreamLanguage]]
             ["@codemirror/state" :refer [EditorState]]
             ["@codemirror/lang-html" :as lang-html]
