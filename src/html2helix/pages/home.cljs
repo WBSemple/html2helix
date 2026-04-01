@@ -8,7 +8,7 @@
             [cljs.pprint :as pprint]
             [helix.core :refer [$ <>]]
             [helix.dom :as d]
-            [hickory.core :as hickory]
+            [html2helix.convert :as convert]
             [html2helix.macros :refer [defnc]]
             [refx.alpha :as r]))
 
@@ -21,8 +21,7 @@
     (r/sub [::html]))
   (fn [html _]
     (some-> (not-empty html)
-            (hickory/parse)
-            (hickory/as-hickory)
+            (convert/html->helix)
             (pprint/write :stream nil))))
 
 (r/reg-event-db ::set-html
@@ -41,6 +40,7 @@
               :target "_blank"}
           "Helix")
         " syntax"))
+    ;; TODO - specify helix.dom alias?
     (d/div {:className "grid lg:grid-cols-2 gap-6 mt-3"}
       (d/div
         (d/label "HTML")
@@ -48,7 +48,7 @@
                        :onChange #(r/dispatch [::set-html %])
                        :extensions #js [(lang-html/html)]}))
       (d/div
-        (d/label "Helix")
+        (d/label "Helix") ;; TODO - clipboard button
         (let [hick (r/use-sub [::hickory])]
           ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
                          :value (str hick)
