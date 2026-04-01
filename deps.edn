@@ -3,7 +3,6 @@
         dev.weavejester/medley {:mvn/version "1.10.0"}
         lambdaisland/fetch {:mvn/version "1.5.83"}
         lilactown/helix {:mvn/version "0.2.2"}
-        metosin/reitit-frontend {:mvn/version "0.10.0"}
         org.clj-commons/hickory {:mvn/version "0.7.7"}
         org.clojure/clojurescript {:mvn/version "1.12.134"}
         thheller/shadow-cljs {:mvn/version "3.3.5"}}
