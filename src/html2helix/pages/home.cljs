@@ -5,7 +5,6 @@
             ["@codemirror/state" :refer [EditorState]]
             ["@codemirror/lang-html" :as lang-html]
             ["@nextjournal/lang-clojure" :as lang-clj]
-            [cljs.pprint :as pprint]
             [helix.core :refer [$ <>]]
             [helix.dom :as d]
             [html2helix.convert :as convert]
@@ -21,8 +20,7 @@
     (r/sub [::html]))
   (fn [html _]
     (some-> (not-empty html)
-            (convert/html->helix)
-            (pprint/write :stream nil))))
+            (convert/html->helix))))
 
 (r/reg-event-db ::set-html
   (fn [db [_ html]]

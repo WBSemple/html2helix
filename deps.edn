@@ -1,4 +1,6 @@
-{:deps {com.fbeyer/refx {:mvn/version "0.0.49"}
+{:deps {camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+        com.fbeyer/refx {:mvn/version "0.0.49"}
+        dev.weavejester/medley {:mvn/version "1.10.0"}
         lambdaisland/fetch {:mvn/version "1.5.83"}
         lilactown/helix {:mvn/version "0.2.2"}
         metosin/reitit-frontend {:mvn/version "0.10.0"}
