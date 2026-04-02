@@ -10,3 +10,8 @@ deps:
 
 run:
     npx shadow-cljs -A:dev clj-run html2helix.shadow/watch
+
+build: deps
+    rm -rf public/output.css public/js
+    npx shadow-cljs release app
+    npx @tailwindcss/cli -i resources/input.css -o public/output.css
