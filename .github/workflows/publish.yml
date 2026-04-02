@@ -29,6 +29,17 @@ jobs:
           node-version: '20'
           cache: npm
 
+      - name: Install Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install Clojure
+        uses: DeLaGuardo/setup-clojure@13.4
+        with:
+          cli: latest
+
       - name: Install Just
         uses: extractions/setup-just@v3
 
