@@ -11,8 +11,8 @@
   (into {}
         (comp (map str/trim)
               (remove empty?)
-              (map #(let [[k v] (str/split % #":" 2)]
-                      [(csk/->camelCaseKeyword k) (str/trim v)])))
+              (keep #(let [[k v] (str/split % #":" 2)]
+                       (when v [(csk/->camelCaseKeyword k) (str/trim v)]))))
         (str/split s #";")))
 
 (defn- format-attrs
