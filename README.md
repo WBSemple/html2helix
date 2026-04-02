@@ -1,5 +1,9 @@
 # html2helix 🧬
 
+Convert raw HTML to ClojureScript Helix syntax
+
+**https://wbsemple.github.io/html2helix/**
+
 ## Requirements
 
 * Node 20 - `nvm i 20`

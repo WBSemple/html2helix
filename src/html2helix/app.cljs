@@ -36,7 +36,7 @@
         "html2helix")
       (d/div {:className "flex justify-center"}
         (d/h2 {:className "badge badge-soft badge-primary inline-block"}
-          "Convert raw HTML to Clojurescript "
+          "Convert raw HTML to ClojureScript "
           (d/a {:className "link"
                 :href "https://github.com/lilactown/helix"
                 :target "_blank"}
