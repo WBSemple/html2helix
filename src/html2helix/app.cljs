@@ -14,18 +14,28 @@
 
 (defnc code-blocks []
   (let [[html setHtml] (h/use-state example)
-        helix (some-> (not-empty html)
-                      (convert/html->helix))]
-    (d/div {:className "grid lg:grid-cols-2 gap-6 mt-3"}
-      (d/div
-        (d/label "HTML")
-        ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
+        [alias setAlias] (h/use-state "d")
+        helix (some->> (not-empty html)
+                       (convert/html->helix alias))]
+    (d/div {:className "grid lg:grid-cols-2 gap-x-6 mt-3"}
+      (d/label {:className "lg:order-1 my-auto"} "HTML")
+      (d/div {:className "lg:order-3 overflow-auto pb-2"}
+        ($ CodeMirror {:className "border border-base-300 rounded-field overflow-auto"
                        :value html
                        :onChange #(setHtml %)
                        :extensions #js [(lang-html/html)]}))
-      (d/div
-        (d/label "Helix") ;; TODO - clipboard button
-        ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
+
+      (d/div {:className "lg:order-2"}
+        (d/label {:className "input input-sm w-auto inline-block"}
+          (d/code
+            "[helix.dom :as "
+            (d/input {:type "text"
+                      :placeholder "d"
+                      :onChange #(setAlias (or (not-empty (.. % -target -value)) "d"))
+                      :style {:width (str (count alias) "ch")}})
+            "]")))
+      (d/div {:className "lg:order-4 overflow-auto pb-2"}
+        ($ CodeMirror {:className "border border-base-300 rounded-field overflow-auto"
                        :value (str helix)
                        :extensions #js [(lang-clj/clojure) (.of EditorState.readOnly true)]})))))
 
@@ -42,7 +52,6 @@
                 :target "_blank"}
             "Helix")
           " syntax"))
-      ;; TODO - specify helix.dom alias?
       ($ code-blocks))
     (d/footer
       {:className "footer footer-center bg-base-300 p-2"}

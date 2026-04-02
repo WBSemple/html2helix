@@ -22,19 +22,19 @@
       (update-existing :style parse-inline-style)))
 
 (defn- hickory->helix
-  [node]
+  [alias node]
   (cond (string? node) (str/trim node)
         (map? node) (case (:type node)
                       :comment (list 'comment (str/join " " (map str/trim (:content node))))
-                      :element (concat (list (symbol (str "d/" (name (:tag node)))))
+                      :element (concat (list (symbol (str alias \/ (name (:tag node)))))
                                        (some-> (:attrs node) (format-attrs) (list))
                                        (some->> (:content node)
-                                                (map hickory->helix)
+                                                (map #(hickory->helix alias %))
                                                 (remove empty?))))))
 
 (defn html->helix
-  [html]
-  (transduce (comp (map (comp hickory->helix h/as-hickory))
+  [alias html]
+  (transduce (comp (map #(hickory->helix alias (h/as-hickory %)))
                    (remove empty?)
                    (map #(pprint/write % :stream nil))
                    (interpose "\n\n"))
