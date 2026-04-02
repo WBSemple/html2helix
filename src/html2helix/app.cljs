@@ -6,37 +6,27 @@
             ["@nextjournal/lang-clojure" :as lang-clj]
             [helix.core :refer [$ <>]]
             [helix.dom :as d]
+            [helix.hooks :as h]
             [html2helix.convert :as convert]
-            [html2helix.macros :refer [defnc]]
-            [refx.alpha :as r]))
+            [html2helix.macros :refer [defnc]]))
 
-(r/reg-sub ::html
-  (fn [db _]
-    (get db ::html "")))
-
-(r/reg-sub ::helix
-  (fn [_]
-    (r/sub [::html]))
-  (fn [html _]
-    (some-> (not-empty html)
-            (convert/html->helix))))
-
-(r/reg-event-db ::set-html
-  (fn [db [_ html]]
-    (assoc db ::html html)))
+(def example "<div class=\"my-class\">\n  <!-- I'm a comment -->\n  <h1 style=\"color: coral; font-size: 24px;\">\n    Hello, world!\n  </h1>\n</div>")
 
 (defnc code-blocks []
-  (d/div {:className "grid lg:grid-cols-2 gap-6 mt-3"}
-    (d/div
-      (d/label "HTML")
-      ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
-                     :onChange #(r/dispatch [::set-html %])
-                     :extensions #js [(lang-html/html)]}))
-    (d/div
-      (d/label "Helix") ;; TODO - clipboard button
-      (let [hick (r/use-sub [::helix])]
+  (let [[html setHtml] (h/use-state example)
+        helix (some-> (not-empty html)
+                      (convert/html->helix))]
+    (d/div {:className "grid lg:grid-cols-2 gap-6 mt-3"}
+      (d/div
+        (d/label "HTML")
         ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
-                       :value (str hick)
+                       :value html
+                       :onChange #(setHtml %)
+                       :extensions #js [(lang-html/html)]}))
+      (d/div
+        (d/label "Helix") ;; TODO - clipboard button
+        ($ CodeMirror {:className "border border-base-300 rounded overflow-auto"
+                       :value (str helix)
                        :extensions #js [(lang-clj/clojure) (.of EditorState.readOnly true)]})))))
 
 (defnc app []
@@ -60,7 +50,7 @@
             :href "https://github.com/WBSemple/html2helix"
             :target "_blank"}
         (d/svg {:xmlns "http://www.w3.org/2000/svg" :width "16" :height "16" :fill "currentColor"
-                :viewbox "0 0 16 16" :className "bi bi-github"}
+                :viewBox "0 0 16 16" :className "bi bi-github"}
           (d/path {:d (str "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1."
                            "49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08"
                            ".58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.8"

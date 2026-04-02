@@ -1,5 +1,4 @@
 {:deps {camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
-        com.fbeyer/refx {:mvn/version "0.0.49"}
         dev.weavejester/medley {:mvn/version "1.10.0"}
         lambdaisland/fetch {:mvn/version "1.5.83"}
         lilactown/helix {:mvn/version "0.2.2"}
@@ -9,5 +8,4 @@
 
  :paths ["src" "resources"]
 
- :aliases {:dev {:extra-deps {no.cjohansen/dataspex {:mvn/version "2026.01.1"}}
-                 :extra-paths ["dev"]}}}
+ :aliases {:dev {:extra-paths ["dev"]}}}
