@@ -18,7 +18,8 @@
 (defn- format-attrs
   [attrs]
   (-> (set/rename-keys attrs {:class :className
-                              :for :htmlFor})
+                              :for :htmlFor
+                              :viewbox :viewBox})
       (update-existing :style parse-inline-style)))
 
 (defn- hickory->helix
