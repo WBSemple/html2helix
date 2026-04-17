@@ -15,7 +15,7 @@
 (defnc clipboard-icon []
   (d/svg
     {:xmlns "http://www.w3.org/2000/svg" :fill "none" :viewBox "0 0 24 24" :stroke-width "1.5" :stroke "currentColor"
-     :className "size-6"}
+     :class "size-6"}
     (d/path {:stroke-linecap "round"
              :stroke-linejoin "round"
              :d "M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z"})))
@@ -29,54 +29,53 @@
         [alias setAlias] (h/use-state "d")
         helix (some->> (not-empty html)
                        (convert/html->helix alias))]
-    (d/div {:className "grid lg:grid-cols-2 gap-x-6 mt-3"}
-      (d/label {:className "lg:order-1 my-auto"} "HTML")
-      (d/div {:className "lg:order-3 overflow-auto pb-2"}
+    (d/div {:class "grid lg:grid-cols-2 gap-x-6 mt-3"}
+      (d/label {:class "lg:order-1 my-auto"} "HTML")
+      (d/div {:class "lg:order-3 overflow-auto pb-2"}
         ($ CodeMirror {:className "border border-base-300 rounded-field overflow-auto"
                        :value html
                        :onChange #(setHtml %)
                        :extensions #js [(lang-html/html)]}))
-
-      (d/div {:className "lg:order-2"}
-        (d/label {:className "input input-sm w-auto inline-block tooltip tooltip-top"
+      (d/div {:class "lg:order-2"}
+        (d/label {:class "input input-sm w-auto inline-block tooltip tooltip-top"
                   :data-tip "customise helix.dom alias"}
           (d/code
             "[helix.dom :as "
             (d/input {:type "text"
                       :placeholder "d"
-                      :onChange #(setAlias (or (not-empty (.. % -target -value)) "d"))
+                      :on-change #(setAlias (or (not-empty (.. % -target -value)) "d"))
                       :style {:width (str (count alias) "ch")}})
             "]"))
         (let [[copied setCopied] (h/use-state false)]
-          (d/div {:className "tooltip tooltip-left float-right"
+          (d/div {:class "tooltip tooltip-left float-right"
                   :data-tip (if copied "copied" "copy")}
-            (d/button {:className "btn btn-link btn-sm text-base-content ps-0 pe-2 float-right"
+            (d/button {:class "btn btn-link btn-sm text-base-content ps-0 pe-2 float-right"
                        :on-click #(-> (.writeText js/navigator.clipboard helix)
                                       (.then (setCopied true)
                                              (js/setTimeout (fn [] (setCopied false)) 2000)))}
               ($ clipboard-icon)))))
-      (d/div {:className "lg:order-4 overflow-auto pb-2"}
+      (d/div {:class "lg:order-4 overflow-auto pb-2"}
         ($ CodeMirror {:className "border border-base-300 rounded-field overflow-auto"
                        :value (str helix)
                        :extensions #js [(lang-clj/clojure) (.of EditorState.readOnly true)]})))))
 
 (defnc app []
-  (d/div {:className "flex flex-col h-screen justify-between"}
-    (d/div {:className "px-4 pb-6"}
-      (d/h1 {:className "text-4xl py-2 text-center font-medium"}
+  (d/div {:class "flex flex-col h-screen justify-between"}
+    (d/div {:class "px-4 pb-6"}
+      (d/h1 {:class "text-4xl py-2 text-center font-medium"}
         "html2helix")
-      (d/div {:className "flex justify-center"}
-        (d/h2 {:className "badge badge-soft badge-primary inline-block"}
+      (d/div {:class "flex justify-center"}
+        (d/h2 {:class "badge badge-soft badge-primary inline-block"}
           "Convert raw HTML to ClojureScript "
-          (d/a {:className "link"
+          (d/a {:class "link"
                 :href "https://github.com/lilactown/helix"
                 :target "_blank"}
             "Helix")
           " syntax"))
       ($ code-blocks))
     (d/footer
-      {:className "footer footer-center bg-base-300 p-2"}
-      (d/a {:className "link flex"
+      {:class "footer footer-center bg-base-300 p-2"}
+      (d/a {:class "link flex"
             :href "https://github.com/WBSemple/html2helix"
             :target "_blank"}
         ($ github-icon)

@@ -1,7 +1,5 @@
 (ns html2helix.convert
-  (:require [camel-snake-kebab.core :as csk]
-            [cljs.pprint :as pprint]
-            [clojure.set :as set]
+  (:require [cljs.pprint :as pprint]
             [clojure.string :as str]
             [hickory.core :as h]
             [medley.core :refer [update-existing]]))
@@ -12,15 +10,8 @@
         (comp (map str/trim)
               (remove empty?)
               (keep #(let [[k v] (str/split % #":" 2)]
-                       (when v [(csk/->camelCaseKeyword k) (str/trim v)]))))
+                       (when v [(keyword k) (str/trim v)]))))
         (str/split s #";")))
-
-(defn- format-attrs
-  [attrs]
-  (-> (set/rename-keys attrs {:class :className
-                              :for :htmlFor
-                              :viewbox :viewBox})
-      (update-existing :style parse-inline-style)))
 
 (defn- hickory->helix
   [alias node]
@@ -28,7 +19,7 @@
         (map? node) (case (:type node)
                       :comment (list 'comment (str/join " " (map str/trim (:content node))))
                       :element (concat (list (symbol (str alias \/ (name (:tag node)))))
-                                       (some-> (:attrs node) (format-attrs) (list))
+                                       (some-> (:attrs node) (update-existing :style parse-inline-style) (list))
                                        (some->> (:content node)
                                                 (map #(hickory->helix alias %))
                                                 (remove empty?))))))
