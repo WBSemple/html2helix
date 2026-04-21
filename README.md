@@ -1,4 +1,4 @@
-# html2helix 🧬
+# html2helix <img src="public/favicon.svg" alt="Icon" align="right" width="128"> 
 
 Convert raw HTML to ClojureScript Helix syntax
 
