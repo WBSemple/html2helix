@@ -2,7 +2,7 @@
 
 Convert raw HTML to ClojureScript Helix syntax
 
-**https://wbsemple.github.io/html2helix/**
+**https://wbsemple.com/html2helix/**
 
 ## Requirements
 
